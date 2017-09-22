@@ -1,16 +1,20 @@
 package org.todd.Sword.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.todd.Sword.po.Person;
 import org.todd.Sword.service.ISwordService;
 
-@Controller
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
 @RequestMapping(value="sword")
 public class SwordController {
 
@@ -28,11 +32,18 @@ public class SwordController {
 		return "保存成功";
 	}
 	
-	@RequestMapping(value="getperson",method=RequestMethod.GET)
+	@ApiOperation(value="获取单个人物信息",notes="根据url中的id来获取用户信息")
+	@ApiImplicitParam(name="id",value="用户id",required=true,dataType="int",paramType="path")
+	@RequestMapping(value="getperson/{id}",method=RequestMethod.GET)
 	@ResponseBody
-	public String getOnePerson(@RequestParam int id) {
+	public String getOnePerson(@PathVariable(value="id")int id) {
 		return service.getone(id).toString(); 
 	}
+	
+//	public Person getAll() {
+//		return service.
+//		
+//	}
 	
 	@RequestMapping(value="home",method=RequestMethod.GET)
 	public String home(Model model) {
